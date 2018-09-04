@@ -17,8 +17,7 @@ import ProfileScreen from './app/screens/Profile.js';
 import PhotoCardScreen from './app/screens/PhotoCardScreen.js';
 import FaceScreen from './app/screens/FaceScreen.js';
 import TweetScreen from './app/screens/TweetScreen.js';
-//import AppBottomTab from './app/Navigators/AppBottomTab.js';
-//import AppBottomTab from './app/Navigators/BottomTabNavigator.js'
+
 
 export const HomeStack = createStackNavigator(
       {
