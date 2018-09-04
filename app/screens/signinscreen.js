@@ -14,7 +14,6 @@ export default class SignInScreen extends React.Component {
     super(props);
   }
 
-
   signInWithGoogleAsync = async () => {
       try {
         const result = await Expo.Google.logInAsync({
@@ -40,7 +39,7 @@ export default class SignInScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-      <Button onPress={this.signInWithGoogleAsync} title = 'Sign in!!'/>
+      <Button onPress={this.signInWithGoogleAsync} title = 'Sign in with google'/>
       </View>
     );
   }
@@ -54,7 +53,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    //alignItems: 'center',
+    alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
 });
