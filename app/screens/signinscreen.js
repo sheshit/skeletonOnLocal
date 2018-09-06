@@ -5,13 +5,30 @@ import {
   Text,
   View, Button, Alert
 } from 'react-native';
-//import Expo from 'expo';
 
 
 export default class SignInScreen extends React.Component {
 
   constructor(props){
     super(props);
+    this.state={
+      accessToken:"",
+    };
+  }
+
+  accessTokenExport = () => {
+    var data = {
+      "accessToken": this.state.accessToken,
+    }
+    console.log("accessTokenExport called");
+    fetch("http://192.168.201.69:3000/google-login",{
+      method:"POST",
+      headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      },
+      body:  JSON.stringify(data)
+    }).then(Alert.alert("Sent access token"))
   }
 
   signInWithGoogleAsync = async () => {
@@ -23,8 +40,13 @@ export default class SignInScreen extends React.Component {
         });
 
         if (result.type === 'success') {
-          Alert.alert(result.accessToken);
+          this.setState({
+            accessToken:result.accessToken,
+          });
+          this.accessTokenExport();
+          console.log(this.state.accessToken);
           console.log("Successful");
+
           this.props.navigation.navigate('App');
         } else {
           return {cancelled: true};
@@ -33,8 +55,6 @@ export default class SignInScreen extends React.Component {
         return {error: true};
       }
     }
-
-
 
   render() {
     return (
