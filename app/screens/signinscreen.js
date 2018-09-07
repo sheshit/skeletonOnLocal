@@ -12,7 +12,9 @@ export default class SignInScreen extends React.Component {
   constructor(props){
     super(props);
     this.state={
+      userId:"",
       accessToken:"",
+      refreshToken:"",
       name:"",
       email:"",
       photoUrl:""
@@ -21,13 +23,16 @@ export default class SignInScreen extends React.Component {
 
   accessTokenExport = () => {
     var data = {
+      "userId":this.state.userId,
       "accessToken": this.state.accessToken,
+      "refreshToken": this.state.refreshToken,
       "name": this.state.name,
       "email":this.state.email,
       "photoUrl":this.state.photoUrl
     }
     console.log("accessTokenExport called");
-    fetch("http://192.168.31.115:3000/google-login",{
+    console.log(JSON.stringify(data));
+    fetch("http://192.168.201.69:3000/google-login",{
       method:"POST",
       headers: {
       Accept: 'application/json',
@@ -44,16 +49,18 @@ export default class SignInScreen extends React.Component {
           iosClientId: '701891613865-3cjbhhtcfsvj69the1n9vdbanur6hbtj.apps.googleusercontent.com',
           scopes: ['profile', 'email'],
         });
-      //  console.log(JSON.stringify(result));
+        console.log(JSON.stringify(result));
         if (result.type === 'success') {
           this.setState({
+            userId:result.user.id,
             accessToken:result.accessToken,
+            refreshToken:result.refreshToken,
             name:result.user.name,
             email:result.user.email,
             photoUrl:result.user.photoUrl
           });
           this.accessTokenExport();
-        //  console.log(this.state.accessToken);
+          await AsyncStorage.setItem('accessToken' , this.state.accessToken);
           console.log("Successful");
 
           this.props.navigation.navigate('App');
