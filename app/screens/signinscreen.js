@@ -23,7 +23,7 @@ export default class SignInScreen extends React.Component {
 
   accessTokenExport = () => {
     var data = {
-      "userId":this.state.userId,
+      "_userId":this.state.userId,
       "accessToken": this.state.accessToken,
       "refreshToken": this.state.refreshToken,
       "name": this.state.name,
@@ -40,6 +40,29 @@ export default class SignInScreen extends React.Component {
       },
       body:  JSON.stringify(data)
     }).then(Alert.alert("Sent data"))
+  }
+
+  signInWithFacebookAsync = async () => {
+    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync('226750358191015', {
+        permissions: ['public_profile'],
+      });
+    if (type === 'success') {
+      // Get the user's name using Facebook's Graph API
+      const response = await fetch(
+        `https://graph.facebook.com/me?access_token=${token}`);
+      Alert.alert(
+        'Logged in!',
+        `Hi ${(await response.json()).name}!`,
+      );
+      console.log(JSON.stringify(response));
+      console.log("Successful");
+
+      this.props.navigation.navigate('App');
+    }
+    else{
+      console.log('error');
+    }
+
   }
 
   signInWithGoogleAsync = async () => {
@@ -76,6 +99,7 @@ export default class SignInScreen extends React.Component {
     return (
       <View style={styles.container}>
       <Button onPress={this.signInWithGoogleAsync} title = 'Sign in with google'/>
+      <Button onPress={this.signInWithFacebookAsync} title = 'Sign in with Facebook'/>
       </View>
     );
   }
