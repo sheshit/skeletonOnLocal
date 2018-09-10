@@ -3,9 +3,10 @@ import {
   AsyncStorage,
   StyleSheet,
   Text,
-  View, Button, Alert
+  View, Button, Alert,Image
 } from 'react-native';
-
+import * as firebase from 'firebase';
+import BackgroundImage from '../components/BackgroundImage.js';
 
 export default class SignInScreen extends React.Component {
 
@@ -23,7 +24,7 @@ export default class SignInScreen extends React.Component {
 
   accessTokenExport = () => {
     var data = {
-      "_userId":this.state.userId,
+      "userId":this.state.userId,
       "accessToken": this.state.accessToken,
       "refreshToken": this.state.refreshToken,
       "name": this.state.name,
@@ -56,13 +57,16 @@ export default class SignInScreen extends React.Component {
       );
       console.log(JSON.stringify(response));
       console.log("Successful");
-
+      const credential = firebase.auth.FacebookAuthProvider.credential(token);
+      // Sign in with credential from the Facebook user.
+      firebase.auth().signInAndRetrieveDataWithCredential(credential).catch((error) => {
+        // Handle Errors here.
+      });
       this.props.navigation.navigate('App');
     }
     else{
       console.log('error');
     }
-
   }
 
   signInWithGoogleAsync = async () => {
@@ -82,10 +86,16 @@ export default class SignInScreen extends React.Component {
             email:result.user.email,
             photoUrl:result.user.photoUrl
           });
-          this.accessTokenExport();
-          await AsyncStorage.setItem('accessToken' , this.state.accessToken);
+        //  this.accessTokenExport();
           console.log("Successful");
-
+          const credential = firebase.auth.GoogleAuthProvider.credential(result.idToken);
+        console.log("crucial");
+        firebase.auth().signInAndRetrieveDataWithCredential(credential).then(
+          Alert.alert("Success")
+        ).catch((error) => {
+          // Handle Errors here.
+          Alert.alert("Fail!!");
+        });
           this.props.navigation.navigate('App');
         } else {
           return {cancelled: true};
@@ -97,23 +107,26 @@ export default class SignInScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-      <Button onPress={this.signInWithGoogleAsync} title = 'Sign in with google'/>
-      <Button onPress={this.signInWithFacebookAsync} title = 'Sign in with Facebook'/>
-      </View>
+      <BackgroundImage>
+      <Button style = {styles.SigninButton} onPress={this.signInWithGoogleAsync} color='#e60000' title = 'Sign in with google'/>
+      <Button  onPress={this.signInWithFacebookAsync} style = {styles.SigninButton} title = 'Sign in with Facebook'/>
+      </BackgroundImage>
     );
   }
 }
-
-
-
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+  //  paddingTop:100,
+  //  alignItems: 'center',
+  //  backgroundColor: '#F5FCFF',
   },
+ SigninButton: {
+   //color: 'red',
+  marginTop: 20,
+  padding: 20,
+  backgroundColor: 'green',
+    }
 });

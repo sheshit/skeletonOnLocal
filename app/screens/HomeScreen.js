@@ -3,11 +3,12 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
+  Button,Alert,
 } from 'react-native';
 import {Constants} from 'expo';
 import {Entypo,Ionicons} from '@expo/vector-icons';
-import HeaderComponent from '../components/HeaderComponent'
+import HeaderComponent from '../components/HeaderComponent';
+import * as firebase from 'firebase';
 
 
 export default class HomeScreen extends Component {
@@ -22,15 +23,26 @@ export default class HomeScreen extends Component {
     },
   };
 
+
+    signOutUser = async () => {
+      try {
+          await firebase.auth().signOut();
+            this.props.navigation.navigate('Auth');
+      } catch (e) {
+          console.log(e);
+      }
+  }
+
   render() {
     return (
       <View style={styles.container}>
-      
+
         <Text style={styles.title}>
           HomeScreen
         </Text>
         <Button onPress={()=>this.props.navigation.navigate('Profile')} title="Open Profile" />
         <Button onPress={()=>this.props.navigation.navigate('PhotoCardScreen')} title="Open photo" />
+        <Button onPress={this.signOutUser} title="sign out" />
       </View>
     );
   }
