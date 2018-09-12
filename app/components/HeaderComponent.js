@@ -13,7 +13,7 @@ import {Entypo,Ionicons} from '@expo/vector-icons';
 export default class HeaderComponent extends Component {
   render() {
     return (
-<Header>
+   <Header>
           <Left>
             <Button transparent onPress={()=>{Alert.alert('Drawer Menu should open')}}>
               <Ionicons name='md-menu' size={32} color="white"/>

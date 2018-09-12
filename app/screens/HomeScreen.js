@@ -9,19 +9,18 @@ import {Constants} from 'expo';
 import {Entypo,Ionicons} from '@expo/vector-icons';
 import HeaderComponent from '../components/HeaderComponent';
 import * as firebase from 'firebase';
-
-
+import { Icon } from 'native-base';
+import { createStackNavigator } from 'react-navigation';
+import ProfileScreen from './Profile.js';
+import PhotoCardScreen from './PhotoCardScreen.js';
 export default class HomeScreen extends Component {
   static navigationOptions = {
-    title: 'Home',
-    headerStyle: {
-      backgroundColor: '#f4511e',
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
-  };
+        title: "Awesome App",
+        headerStyle: {
+          backgroundColor: '#f4511e',
+        },
+        headerRight: <Icon style={{ paddingRight: 10 }} name="ios-add-circle" /> ,
+    }
 
 
     signOutUser = async () => {
@@ -47,7 +46,18 @@ export default class HomeScreen extends Component {
     );
   }
 }
-
+/*
+export default createStackNavigator(
+      {
+      HomeScreen:HomeScreen,
+      Profile:ProfileScreen,
+      PhotoCardScreen:PhotoCardScreen,
+      },
+      {
+        initialRouteName:'HomeScreen'
+      }
+      );
+*/
 const styles = StyleSheet.create({
   container: {
     flex: 1,

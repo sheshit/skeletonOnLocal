@@ -17,7 +17,7 @@ import ProfileScreen from './app/screens/Profile.js';
 import PhotoCardScreen from './app/screens/PhotoCardScreen.js';
 import FaceScreen from './app/screens/FaceScreen.js';
 import TweetScreen from './app/screens/TweetScreen.js';
-
+import MainScreen from './app/screens/MainScreen.js';
 
 export const HomeStack = createStackNavigator(
       {
@@ -46,28 +46,20 @@ export const SocialStack = createStackNavigator(
       },
       {
         initialRouteName:'Social',
-        navigationOptions: {
-      headerStyle: {
-        title:'Social Activity',
-        backgroundColor: '#f4511e',
-      },
-      headerTintColor: '#fff',
-      }
       }
       );
-
-export const AppBottomTab = createBottomTabNavigator({
-  Home: HomeStack,
-  Social: SocialStack,
+/*
+export const AppNavigator = createStackNavigator({
+  Main: MainScreen,
   },
   {
-    initialRouteName:'Home',
+    initialRouteName:'Main',
   });
-
+*/
 export default createSwitchNavigator(
   {
     AuthLoading: AuthLoadingScreen,
-    App: AppBottomTab,
+    App: MainScreen,
     Auth: SignInScreen,
   },
   {
