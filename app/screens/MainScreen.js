@@ -12,6 +12,7 @@ import HomeScreen from './HomeScreen.js';
 import SocialActivityScreen from './socialactivityscreen.js';
 import ProfileScreen from './Profile.js';
 import PhotoCardScreen from './PhotoCardScreen.js';
+import UploadScreen from './Upload.js';
 
 export default class MainScreen extends Component {
 /*
@@ -31,8 +32,15 @@ export const HomeStack =  createStackNavigator({
       HomeScreen:{
       screen :  HomeScreen
       },
-      Profile:ProfileScreen,
-      PhotoCardScreen:PhotoCardScreen,
+      Profile:{
+        screen : ProfileScreen
+      },
+      PhotoCardScreen:{
+        screen : PhotoCardScreen
+      },
+      Upload:{
+        screen: UploadScreen
+      }
       },
       {
         initialRouteName:'HomeScreen'

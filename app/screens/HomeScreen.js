@@ -3,24 +3,24 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,Alert,
+  Button,Alert,TouchableOpacity
 } from 'react-native';
 import {Constants} from 'expo';
 import {Entypo,Ionicons} from '@expo/vector-icons';
 import HeaderComponent from '../components/HeaderComponent';
+import CardComponent from '../components/CardComponent';
 import * as firebase from 'firebase';
-import { Icon } from 'native-base';
 import { createStackNavigator } from 'react-navigation';
 import ProfileScreen from './Profile.js';
+import UploadScreen from './Upload.js';
 import PhotoCardScreen from './PhotoCardScreen.js';
+import { Container, Content, Icon } from 'native-base'
 export default class HomeScreen extends Component {
-  static navigationOptions = {
-        title: "Awesome App",
-        headerStyle: {
-          backgroundColor: '#f4511e',
-        },
-        headerRight: <Icon style={{ paddingRight: 10 }} name="ios-add-circle" /> ,
-    }
+
+  static navigationOptions = ({ navigation, screenProps }) => ({
+  title: "Awesome App",
+  headerRight: <Icon onPress={()=>{ navigation.navigate('Upload'); }} style={{ paddingRight: 10 }} name="ios-add-circle" />,
+});
 
 
     signOutUser = async () => {
@@ -34,15 +34,13 @@ export default class HomeScreen extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-
-        <Text style={styles.title}>
-          HomeScreen
-        </Text>
-        <Button onPress={()=>this.props.navigation.navigate('Profile')} title="Open Profile" />
-        <Button onPress={()=>this.props.navigation.navigate('PhotoCardScreen')} title="Open photo" />
-        <Button onPress={this.signOutUser} title="sign out" />
-      </View>
+      <Container style={styles.container}>
+                  <Content>
+                      <CardComponent imageSource="1" likes="101" />
+                      <CardComponent imageSource="2" likes="201" />
+                      <CardComponent imageSource="3" likes="301" />
+                  </Content>
+              </Container>
     );
   }
 }
