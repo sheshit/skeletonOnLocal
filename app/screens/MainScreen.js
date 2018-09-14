@@ -13,6 +13,7 @@ import SocialActivityScreen from './socialactivityscreen.js';
 import ProfileScreen from './Profile.js';
 import PhotoCardScreen from './PhotoCardScreen.js';
 import UploadScreen from './Upload.js';
+import CameraScreen from './CameraScreen.js';
 
 export default class MainScreen extends Component {
 /*
@@ -40,12 +41,26 @@ export const HomeStack =  createStackNavigator({
       },
       Upload:{
         screen: UploadScreen
+      },
+      Camera:{
+        screen : CameraScreen
       }
       },
       {
         initialRouteName:'HomeScreen'
       }
       );
+
+      HomeStack.navigationOptions = ({ navigation }) => {
+        let tabBarVisible = true;
+        if (navigation.state.index > 0) {
+          tabBarVisible = false;
+        }
+
+        return {
+          tabBarVisible,
+        };
+      };
 
 const AppTabNavigator = createBottomTabNavigator({
 
