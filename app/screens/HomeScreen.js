@@ -16,6 +16,14 @@ import UploadScreen from './Upload.js';
 import PhotoCardScreen from './PhotoCardScreen.js';
 import { Container, Content, Icon } from 'native-base';
 import Modal from "react-native-simple-modal";
+
+/**
+ *
+ *
+ * @export
+ * @class HomeScreen
+ * @extends {Component}
+ */
 export default class HomeScreen extends Component {
 
 constructor(props){
@@ -36,14 +44,35 @@ constructor(props){
   }
 
   _pickImage = async () => {
+		this.closeModal();
     await Permissions.askAsync(Permissions.CAMERA_ROLL);
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
-      aspect: [4, 3],
+			aspect: [4, 3],
     });
     if (!result.cancelled) {
       this.setState({ imageUri: result.uri });
-    }
+		}
+		const data = new FormData();
+     data.append('username', 'ram siran g jaffa');
+     data.append('tagline', 'avatar');
+     data.append('uploadImage', {
+      uri : result.uri,
+      type: "image/jpg",
+      name: "hello world",
+     });
+     const config = {
+       method: 'POST',
+       headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'multipart/form-data',
+       },
+       body: data,
+      };
+     fetch("http://192.168.201.69:3000/" + "upload-image", config)
+      .catch((err)=>{console.log(err);});
+    console.log("The data sent from ImagePicker Expo");
+    console.log(result);
   }
 
   modalDidClose = () => {
@@ -63,7 +92,7 @@ constructor(props){
       }
   }
 
-  openCamera(){
+	openCamera(){
     this.props.navigation.navigate('Camera');
     this.closeModal();
   }
@@ -104,7 +133,7 @@ const styles = StyleSheet.create({
    // justifyContent: 'center',
     //alignItems: 'center',
    // paddingTop:Constants.statusBarHeight,
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#fff',
   },
   title: {
     fontSize: 20,
