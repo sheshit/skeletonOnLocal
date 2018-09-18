@@ -18,7 +18,7 @@ export default class CameraScreen extends Component {
     state = {
         hasCameraPermission: null,
         type: Camera.Constants.Type.back,
-        image:null,
+        image:'',
     }
 
     snap = async () => {
@@ -30,31 +30,13 @@ export default class CameraScreen extends Component {
             }
          );
        }
-    this.dataToApi();
+    this.dataToTaglineScreen();
     };
 
-    dataToApi(){
-        const data = new FormData();
-     data.append('username', 'From the camera');
-     data.append('tagline', 'avatar');
-     data.append('uploadImage', {
-      uri : this.state.image,
-      type: "image/jpg",
-      name: "from camera",
-     });
-     const config = {
-       method: 'POST',
-       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'multipart/form-data',
-       },
-       body: data,
-      };
-     fetch("http://192.168.201.69:3000/" + "upload-image", config)
-      .then((checkStatusAndGetJSONResponse)=>{
-        console.log(checkStatusAndGetJSONResponse);
-        console.log("done");
-      }).catch((err)=>{console.log(err)});
+    dataToTaglineScreen(){
+          this.props.navigation.navigate('Upload',{
+              itemId : this.state.image,
+          });
     }
 
     async componentWillMount() {

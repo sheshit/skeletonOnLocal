@@ -18,10 +18,13 @@ export default class UploadScreen extends Component {
 
   render() {
 
+    const { navigation } = this.props;
+    const itemId = navigation.getParam('itemId', 'NO-ID');
+
       return (
           <Card>
               <CardItem cardBody>
-                  <Image source={require('../assets/feed_images/1.jpg')} style={{ height: 200, width: null, flex: 1 }} />
+                  <Image source={{isStatic:true, uri:{itemId}}} style={{ height: 200, width: null, flex: 1 }} />
               </CardItem>
 
               <CardItem style={{ height: 20 }}>
