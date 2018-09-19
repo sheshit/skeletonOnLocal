@@ -17,13 +17,16 @@ import PhotoCardScreen from './PhotoCardScreen.js';
 import { Container, Content, Icon } from 'native-base';
 import Modal from "react-native-simple-modal";
 
-/**
- *
- *
- * @export
- * @class HomeScreen
- * @extends {Component}
- */
+var array = [
+{"_id":"5ba225bdce555432dcd7e9dd","username":"iron man","tagline":"avatar","uploadImage":"5ba225bdce555432dcd7e9dd.jpg"},
+{"_id":"5ba1e864ce555432dcd7e9db","username":"iron man","tagline":"avatar","uploadImage":"5ba1e864ce555432dcd7e9db.jpg"},
+{"_id":"5ba1e1d0ae0c2d15d0a1c736","username":"iron man","tagline":"avatar","uploadImage":"5ba1e1d0ae0c2d15d0a1c736.jpg"},
+{"_id":"5ba1e156cf72252ff461e66a","username":"iron man","tagline":"avatar","uploadImage":"5ba1e156cf72252ff461e66a.jpg"},
+{"_id":"5ba1514c0a1caf21f8571a1d","username":"karthikeya","tagline":"uploading image bro.","uploadImage":"5ba1514c0a1caf21f8571a1d.jpg"},
+{"_id":"5ba13e056911911318e55e59","username":"karthikeya","tagline":"uploading image bro.","uploadImage":"5ba13e056911911318e55e59.jpg"}
+]
+
+
 export default class HomeScreen extends Component {
 
   constructor(props) {
@@ -83,15 +86,20 @@ export default class HomeScreen extends Component {
     this.closeModal();
   }
 
+  lapsList(){
+    return array.map((data) => {
+      return (
+        <CardComponent  name = {data.username} tag = {data.tagline} />
+      )
+    });
+  }
+
   render() {
 
     return (
       <Container style={styles.container}>
-
         <Content>
-          <CardComponent imageSource="1" likes="101" />
-          <CardComponent imageSource="2" likes="201" />
-          <CardComponent imageSource="3" likes="301" />
+        {this.lapsList()}
         </Content>
         <Modal
           open={this.state.open}

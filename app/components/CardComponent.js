@@ -25,8 +25,8 @@ class CardComponent extends Component {
                     <Left>
                         <Thumbnail source={require('../assets/me.jpg')} />
                         <Body>
-                            <Text>Sheshit Karthikeya </Text>
-                            <Text note>Date will come</Text>
+                            <Text>{this.props.name} </Text>
+                            <Text note>{this.props.tag}</Text>
                         </Body>
                     </Left>
                 </CardItem>
