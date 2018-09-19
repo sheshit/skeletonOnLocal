@@ -3,10 +3,10 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,Alert,TouchableOpacity,TouchableHighlight
+  Button, Alert, TouchableOpacity, TouchableHighlight
 } from 'react-native';
-import {Constants,ImagePicker,Permissions} from 'expo';
-import {Entypo,Ionicons} from '@expo/vector-icons';
+import { Constants, ImagePicker, Permissions } from 'expo';
+import { Entypo, Ionicons } from '@expo/vector-icons';
 import HeaderComponent from '../components/HeaderComponent';
 import CardComponent from '../components/CardComponent';
 import * as firebase from 'firebase';
@@ -26,51 +26,37 @@ import Modal from "react-native-simple-modal";
  */
 export default class HomeScreen extends Component {
 
-constructor(props){
-  super(props);
-  this.state={
-    open:false,
-    imageUri:null,
-  };
-}
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      imageUri: null,
+    };
+  }
 
   static navigationOptions = ({ navigation, screenProps }) => ({
-      title: "Awesome App",
-      headerRight:  <Icon  onPress={navigation.getParam('openModal')} style={{ paddingRight: 10 }} name="ios-add-circle" />,
+    title: "Awesome App",
+    headerRight: <Icon onPress={navigation.getParam('openModal')} style={{ paddingRight: 10 }} name="ios-add-circle" />,
   });
 
   componentDidMount() {
-      this.props.navigation.setParams({ openModal: this.openModal });
+    this.props.navigation.setParams({ openModal: this.openModal });
   }
 
   _pickImage = async () => {
-		this.closeModal();
+    this.closeModal();
     await Permissions.askAsync(Permissions.CAMERA_ROLL);
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
-			aspect: [4, 3],
+      aspect: [4, 3],
     });
     if (!result.cancelled) {
       this.setState({ imageUri: result.uri });
-		}
-		const data = new FormData();
-     data.append('username', 'ram siran g jaffa');
-     data.append('tagline', 'avatar');
-     data.append('uploadImage', {
-      uri : result.uri,
-      type: "image/jpg",
-      name: "hello world",
-     });
-     const config = {
-       method: 'POST',
-       headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'multipart/form-data',
-       },
-       body: data,
-      };
-     fetch("http://192.168.201.69:3000/" + "upload-image", config)
-      .catch((err)=>{console.log(err);});
+    }
+    this.props.navigation.navigate("Upload", {
+      itemId: this.state.imageUri,
+    });
+
     console.log("The data sent from ImagePicker Expo");
     console.log(result);
   }
@@ -85,14 +71,14 @@ constructor(props){
 
   signOutUser = async () => {
     try {
-        await firebase.auth().signOut();
-          this.props.navigation.navigate('Auth');
+      await firebase.auth().signOut();
+      this.props.navigation.navigate('Auth');
     } catch (e) {
-        console.log(e);
-      }
+      console.log(e);
+    }
   }
 
-	openCamera(){
+  openCamera() {
     this.props.navigation.navigate('Camera');
     this.closeModal();
   }
@@ -102,27 +88,27 @@ constructor(props){
     return (
       <Container style={styles.container}>
 
-                  <Content>
-                      <CardComponent imageSource="1" likes="101" />
-                      <CardComponent imageSource="2" likes="201" />
-                      <CardComponent imageSource="3" likes="301" />
-                  </Content>
-                  <Modal
-                      open={this.state.open}
-                      modalDidOpen={this.modalDidOpen}
-                      modalDidClose={this.modalDidClose}
-                      style={{ alignItems: "center" }}
-                    >
-                      <View style={{ alignItems: "center" }}>
-                       <TouchableHighlight onPress = {this.openCamera.bind(this)} style={styles.submit} underlayColor='#fff' >
-                                         <Text style={[styles.submitText]}>Take a Picture!!</Text>
-                                   </TouchableHighlight>
-                                   <TouchableHighlight onPress={this._pickImage.bind(this)}  style={styles.submit} underlayColor='#fff'>
-                                                     <Text style={[styles.submitText]}>Upload from gallery!!</Text>
-                                               </TouchableHighlight>
-                      </View>
-                    </Modal>
-              </Container>
+        <Content>
+          <CardComponent imageSource="1" likes="101" />
+          <CardComponent imageSource="2" likes="201" />
+          <CardComponent imageSource="3" likes="301" />
+        </Content>
+        <Modal
+          open={this.state.open}
+          modalDidOpen={this.modalDidOpen}
+          modalDidClose={this.modalDidClose}
+          style={{ alignItems: "center" }}
+        >
+          <View style={{ alignItems: "center" }}>
+            <TouchableHighlight onPress={this.openCamera.bind(this)} style={styles.submit} underlayColor='#fff' >
+              <Text style={[styles.submitText]}>Take a Picture!!</Text>
+            </TouchableHighlight>
+            <TouchableHighlight onPress={this._pickImage.bind(this)} style={styles.submit} underlayColor='#fff'>
+              <Text style={[styles.submitText]}>Upload from gallery!!</Text>
+            </TouchableHighlight>
+          </View>
+        </Modal>
+      </Container>
     );
   }
 }
@@ -130,9 +116,9 @@ constructor(props){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-   // justifyContent: 'center',
+    // justifyContent: 'center',
     //alignItems: 'center',
-   // paddingTop:Constants.statusBarHeight,
+    // paddingTop:Constants.statusBarHeight,
     backgroundColor: '#fff',
   },
   title: {
@@ -140,21 +126,21 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     //margin: 10,
   },
-  submit:{
-    marginRight:10,
-    marginLeft:10,
-    marginTop:20,
-    paddingTop:10,
-    paddingLeft:30,
-    paddingRight:30,
-    paddingBottom:10,
-    backgroundColor:'#000000',
-    borderRadius:50,
+  submit: {
+    marginRight: 10,
+    marginLeft: 10,
+    marginTop: 20,
+    paddingTop: 10,
+    paddingLeft: 30,
+    paddingRight: 30,
+    paddingBottom: 10,
+    backgroundColor: '#000000',
+    borderRadius: 50,
     borderWidth: 1,
     borderColor: '#fff'
   },
-  submitText:{
-      color:'#fff',
-      textAlign:'center',
+  submitText: {
+    color: '#fff',
+    textAlign: 'center',
   }
 });

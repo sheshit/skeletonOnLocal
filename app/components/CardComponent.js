@@ -57,7 +57,7 @@ class CardComponent extends Component {
                         <Text>
                             <Text style={{ fontWeight: "900" }}>varun
                             </Text>
-                              hello world!!!
+                            hello world!!!
                         </Text>
                     </Body>
                 </CardItem>

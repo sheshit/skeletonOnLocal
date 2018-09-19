@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
-  Text,
-  ImageBackground,
-  View
+    StyleSheet,
+    Text,
+    ImageBackground,
+    View
 } from 'react-native';
 
 export default class BackgroundImage extends Component {
     render() {
+        console.log("Heloooooooooooooooooooooooooooooooooooooo");
+        console.log("this is image property"+this.props.img);
         return (
-            <ImageBackground source={{uri:'https://images.pexels.com/photos/775203/pexels-photo-775203.jpeg?auto=compress&cs=tinysrgb&h=350'}}
-                  style={styles.backgroundImage}>
+            <ImageBackground source={{ uri: this.props.img }}
+                style={styles.backgroundImage}>
 
-                  {this.props.children}
-
+                {this.props.children}
             </ImageBackground>
         )
     }
@@ -24,8 +25,8 @@ const styles = StyleSheet.create({
         flex: 1,
         width: null,
         height: null,
-       justifyContent: 'center',
-      //  alignItems:'center',
+        justifyContent: 'center',
+        //  alignItems:'center',
     },
 
 

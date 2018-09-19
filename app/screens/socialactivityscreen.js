@@ -5,8 +5,8 @@ import {
   Text,
   View
 } from 'react-native';
-import {createMaterialTopTabNavigator} from 'react-navigation';
-import {Constants} from 'expo';
+import { createMaterialTopTabNavigator } from 'react-navigation';
+import { Constants } from 'expo';
 import FaceScreen from './FaceScreen.js';
 import TweetScreen from './TweetScreen.js';
 
@@ -14,7 +14,7 @@ export default class SocialActivityScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-       <SocialTopTab />
+        <SocialTopTab />
         <Text style={styles.title}>
           SocialActivity
         </Text>
@@ -39,11 +39,11 @@ const styles = StyleSheet.create({
 });
 
 const SocialTopTab = createMaterialTopTabNavigator(
-      {
-      Facebook:FaceScreen,
-      Twitter:TweetScreen,
-      },
-      {
-        initialRouteName:'Facebook',
-      }
-      );
+  {
+    Facebook: FaceScreen,
+    Twitter: TweetScreen,
+  },
+  {
+    initialRouteName: 'Facebook',
+  }
+);

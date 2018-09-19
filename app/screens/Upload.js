@@ -1,50 +1,87 @@
-import React, { Component } from "react";
-import {
-    View,
-    Text,
-    StyleSheet,
-    Image,TextInput
-} from "react-native";
-
-import { Card, CardItem, Thumbnail, Body, Left, Right, Button, Icon } from 'native-base';
+import React from 'react';
+import { StyleSheet, View, Image, TextInput, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
+import BackgroundImage from "../components/BackgroundImage";
 
 
-export default class UploadScreen extends Component {
+export default class UploadScreen extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            text: '',
+            imageUri: ''
+        };
+    }
 
-  constructor(props) {
-   super(props);
-   this.state = { text: '' };
- }
+    sendPostToBackend() {
+        const { itemId } = this.props.navigation.state.params;
+        const data = new FormData();
+        data.append('username', 'ram siran g jaffa');
+        data.append('tagline', 'avatar');
+        data.append('uploadImage', {
+            uri: itemId,
+            type: "image/jpg",
+            name: "hello world",
+        });
+        console.log(data);
+        const config = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'multipart/form-data',
+            },
+            body: data,
+        };
+        fetch("http://192.168.201.55:3000/" + "upload-image", config)
+            .catch((err) => { console.log(err); });
+    }
 
-  render() {
+    render() {
+        const { itemId } = this.props.navigation.state.params;
+        console.log(itemId);
+        return (
+            <BackgroundImage img={itemId}>
+                <View style={styles.topView} >
+                    <MaterialIcons name="add-circle-outline" size={42} color="white" />
+                    <View style={styles.bottomView}>
+                        <TextInput
+                            style={{ color: 'white', paddingLeft: 20, }}
+                            placeholder="Enter Something"
+                            placeholderTextColor="white"
+                            onChangeText={(text) => this.setState({ text })}
+                        />
+                    </View>
+                    <TouchableOpacity onPress={this.sendPostToBackend.bind(this)}>
+                        <Ionicons name="md-checkmark-circle" size={40} color="white" />
+                    </TouchableOpacity>
+                </View>
+            </BackgroundImage>
 
-    const { navigation } = this.props;
-    const itemId = navigation.getParam('itemId', 'NO-ID');
-
-      return (
-          <Card>
-              <CardItem cardBody>
-                  <Image source={{isStatic:true, uri:{itemId}}} style={{ height: 200, width: null, flex: 1 }} />
-              </CardItem>
-
-              <CardItem style={{ height: 20 }}>
-              <TextInput
-     style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-     placeholder='What do you have to say??'
-     onChangeText={(text) => this.setState({text})}
-     value={this.state.text}
-   />
-              </CardItem>
-              <CardItem>
-                  <Body>
-                      <Text>
-                          <Text style={{ fontWeight: "900" }}>varun
-                          </Text>
-                        It is an awesome day!!
-                      </Text>
-                  </Body>
-              </CardItem>
-          </Card>
-      );
-  }
+        );
+    }
 }
+
+
+
+const styles = StyleSheet.create({
+
+    bottomView: {
+        width: '78%',
+        height: 40,
+        marginLeft: 0,
+        //backgroundColor: 'rgba(52, 52, 52, 0.8)',
+        justifyContent: 'center',
+        borderRadius: 40,
+    },
+    topView: {
+        backgroundColor: 'rgba(52, 52, 52, 0.8)',
+        flex: 1,
+        bottom: 0,
+        paddingVertical: 10,
+        position: "absolute",
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+        width: "100%",
+    },
+});

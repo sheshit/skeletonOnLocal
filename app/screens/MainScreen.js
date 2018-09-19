@@ -16,12 +16,12 @@ import UploadScreen from './Upload.js';
 import CameraScreen from './CameraScreen.js';
 
 export default class MainScreen extends Component {
-/*
-    static navigationOptions = {
-        title: "Awesome App",
-        headerRight: <Icon style={{ paddingRight: 10 }} name="ios-add-circle" />
-    }
-*/
+    /*
+        static navigationOptions = {
+            title: "Awesome App",
+            headerRight: <Icon style={{ paddingRight: 10 }} name="ios-add-circle" />
+        }
+    */
     render() {
         return (
             <AppTabNavigator />
@@ -29,59 +29,59 @@ export default class MainScreen extends Component {
     }
 }
 
-export const HomeStack =  createStackNavigator({
-      HomeScreen:{
-      screen :  HomeScreen
-      },
-      Profile:{
-        screen : ProfileScreen
-      },
-      PhotoCardScreen:{
-        screen : PhotoCardScreen
-      },
-      Upload:{
+export const HomeStack = createStackNavigator({
+    HomeScreen: {
+        screen: HomeScreen
+    },
+    Profile: {
+        screen: ProfileScreen
+    },
+    PhotoCardScreen: {
+        screen: PhotoCardScreen
+    },
+    Upload: {
         screen: UploadScreen
-      },
-      Camera:{
-        screen : CameraScreen
-      }
-      },
-      {
-        initialRouteName:'HomeScreen'
-      }
-      );
+    },
+    Camera: {
+        screen: CameraScreen
+    }
+},
+    {
+        initialRouteName: 'HomeScreen'
+    }
+);
 
-      HomeStack.navigationOptions = ({ navigation }) => {
-        let tabBarVisible = true;
-        if (navigation.state.index > 0) {
-          tabBarVisible = false;
-        }
+HomeStack.navigationOptions = ({ navigation }) => {
+    let tabBarVisible = true;
+    if (navigation.state.index > 0) {
+        tabBarVisible = false;
+    }
 
-        return {
-          tabBarVisible,
-        };
-      };
+    return {
+        tabBarVisible,
+    };
+};
 
 const AppTabNavigator = createBottomTabNavigator({
 
     HomeTab: {
         screen: HomeStack,
         navigationOptions: {
-            tabBarLabel:"Home",
+            tabBarLabel: "Home",
             tabBarIcon: ({ tintColor }) => <Icon name="ios-home" size={30} color={tintColor} />
         }
     },
     SocialActivityTab: {
         screen: SocialActivityScreen,
         navigationOptions: {
-            tabBarLabel:"Social",
+            tabBarLabel: "Social",
             tabBarIcon: ({ tintColor }) => <Icon name="ios-home" size={30} color={tintColor} />
         }
     },
     ProfileTab: {
         screen: ProfileScreen,
         navigationOptions: {
-            tabBarLabel:"Profile",
+            tabBarLabel: "Profile",
             tabBarIcon: ({ tintColor }) => <Icon name="person" size={30} color={tintColor} />
         }
     }
