@@ -19,6 +19,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "aws-sdk": "^2.318.0",
     "expo": "^27.0.1",
     "firebase": "^5.4.2",
     "native-base": "^2.8.0",
