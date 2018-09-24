@@ -14,13 +14,7 @@ import {
 
 class CardComponent extends Component {
   render() {
-    /*   const images = {
-
-            "1": require('../assets/feed_images/1.jpg'),
-            "2": require('../assets/feed_images/2.jpeg'),
-            "3": require('../assets/feed_images/3.jpg')
-        }
-*/
+   
     console.log("FROM CARD COMPONENT PROPS-----------" + this.props.imageUrl);
     return (
       <Card>
@@ -36,9 +30,7 @@ class CardComponent extends Component {
         <CardItem cardBody>
           <Image
             source={{ uri: this.props.imageUrl }}
-            resizeMethod="auto"
-            resizeMode="contain"
-            style={{ height: 200, width: null, flex: 1 }}
+            style={{ height: 200, width: null, flex: 1, resizeMode: 'cover' }}
           />
         </CardItem>
         <CardItem style={{ height: 45 }}>

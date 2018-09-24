@@ -10,6 +10,7 @@ import {
   Image
 } from "react-native";
 import { Constants, ImagePicker, Permissions } from "expo";
+import Dataset from 'impagination';
 import { Entypo, Ionicons } from "@expo/vector-icons";
 import HeaderComponent from "../components/HeaderComponent";
 import CardComponent from "../components/CardComponent";
@@ -26,49 +27,10 @@ var AWS = require("aws-sdk");
 AWS.config.update({
   accessKeyId: iam_access_id,
   secretAccessKey: iam_secret,
-  region: "us-east-1"
+  region: "ap-south-1"
 });
 
 var s3 = new AWS.S3();
-
-var array = [
-  {
-    _id: "5ba225bdce555432dcd7e9dd",
-    username: "iron man",
-    tagline: "avatar",
-    uploadImage: "5ba225bdce555432dcd7e9dd.jpg"
-  },
-  {
-    _id: "5ba1e864ce555432dcd7e9db",
-    username: "iron man",
-    tagline: "avatar",
-    uploadImage: "5ba1e864ce555432dcd7e9db.jpg"
-  },
-  {
-    _id: "5ba1e1d0ae0c2d15d0a1c736",
-    username: "iron man",
-    tagline: "avatar",
-    uploadImage: "5ba1e1d0ae0c2d15d0a1c736.jpg"
-  },
-  {
-    _id: "5ba1e156cf72252ff461e66a",
-    username: "iron man",
-    tagline: "avatar",
-    uploadImage: "5ba1e156cf72252ff461e66a.jpg"
-  },
-  {
-    _id: "5ba1514c0a1caf21f8571a1d",
-    username: "karthikeya",
-    tagline: "uploading image bro.",
-    uploadImage: "5ba1514c0a1caf21f8571a1d.jpg"
-  },
-  {
-    _id: "5ba13e056911911318e55e59",
-    username: "karthikeya",
-    tagline: "uploading image bro.",
-    uploadImage: "5ba13e056911911318e55e59.jpg"
-  }
-];
 
 export default class HomeScreen extends Component {
   constructor(props) {
@@ -76,9 +38,29 @@ export default class HomeScreen extends Component {
     this.state = {
       open: false,
       imageUri: null,
-      s3PreSignedUrl: ""
+      s3PreSignedUrl: "",
+      dataset: null,
+      datasetState: null,
     };
     this.lapsList = this.lapsList.bind(this);
+  }
+
+  setupImpagination() {
+    let dataset = new Dataset({
+      pageSize: 5,
+      observe: (datasetState) => {
+        this.setState({datasetState});
+      },
+      fetch(pageOffset, pageSize, stats) {
+        return fetch(`http://192.168.201.57:3000/get-posts/data/page=${pageOffset}`)
+          .then(response => response.json())
+          .catch((error) => {
+            console.error(error);
+          });
+      }
+    });
+    dataset.setReadOffset(0);
+    this.setState({dataset});
   }
 
   static navigationOptions = ({ navigation, screenProps }) => ({
@@ -91,6 +73,10 @@ export default class HomeScreen extends Component {
       />
     )
   });
+
+  componentWillMount(){
+    this.setupImpagination();
+  }
 
   componentDidMount() {
     this.props.navigation.setParams({ openModal: this.openModal });
@@ -137,19 +123,16 @@ export default class HomeScreen extends Component {
   }
 
   lapsList() {
-    return array.map((data, k) => {
+    console.log(this.state.datasetState);
+    return this.state.datasetState.map((record) => {
       var params = {
         Bucket: "projectnativeimages-bucket",
-        Key: data.uploadImage
+        Key: record.content.uploadImage
       };
-      /*   var url = s3.getSignedUrl("getObject", params); 
-      console.log("Your generated pre-signed URL is", url);
-      //this.setState({ s3PreSignedUrl: url });*/
       return (
         <CardComponent
-          key={k}
-          name={data.username}
-          tag={data.tagline}
+          name={record.content.username}
+          tag={record.content.tagline}
           imageUrl={s3.getSignedUrl("getObject", params)}
         />
       );
