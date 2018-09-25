@@ -7,10 +7,11 @@ import {
   Alert,
   TouchableOpacity,
   TouchableHighlight,
-  Image
+  Image,
+  FlatList
 } from "react-native";
 import { Constants, ImagePicker, Permissions } from "expo";
-import Dataset from 'impagination';
+import Dataset from "impagination";
 import { Entypo, Ionicons } from "@expo/vector-icons";
 import HeaderComponent from "../components/HeaderComponent";
 import CardComponent from "../components/CardComponent";
@@ -39,21 +40,26 @@ export default class HomeScreen extends Component {
       open: false,
       imageUri: null,
       s3PreSignedUrl: "",
-      dataset: null,
-      datasetState: null,
+      loading: false,
+      pageOffset: 1,
+      data: []
     };
-    this.lapsList = this.lapsList.bind(this);
+    //this.lapsList = this.lapsList.bind(this);
+    //this.handleEnd = this.handleEnd.bind(this);
   }
-
+  /*
   setupImpagination() {
     let dataset = new Dataset({
       pageSize: 5,
+      pageOffset : 0,
       observe: (datasetState) => {
         this.setState({datasetState});
       },
       fetch(pageOffset, pageSize, stats) {
-        return fetch(`http://192.168.201.57:3000/get-posts/data/page=${pageOffset}`)
-          .then(response => response.json())
+        return fetch(`http://192.168.201.55:3000/get-posts/data/page=${pageOffset}`)
+          .then((response) => response.json()).then((responseJson) =>
+            console.log("this is response array"+JSON.stringify(responseJson))
+          )
           .catch((error) => {
             console.error(error);
           });
@@ -61,7 +67,7 @@ export default class HomeScreen extends Component {
     });
     dataset.setReadOffset(0);
     this.setState({dataset});
-  }
+  }*/
 
   static navigationOptions = ({ navigation, screenProps }) => ({
     title: "Awesome App",
@@ -74,9 +80,27 @@ export default class HomeScreen extends Component {
     )
   });
 
-  componentWillMount(){
-    this.setupImpagination();
+  componentWillMount() {
+    this.fetchData();
   }
+
+  fetchData = async () => {
+    this.setState({ loading: true });
+    await fetch(
+      `http://192.168.201.55:3000/get-posts/data/page=${this.state.pageOffset}`
+    )
+      .then(response => response.json())
+      .then(responseJson => {
+        console.log("this is response array" + JSON.stringify(responseJson));
+        this.setState(state => ({
+          data: [...state.data, ...responseJson],
+          loading: false
+        }));
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
 
   componentDidMount() {
     this.props.navigation.setParams({ openModal: this.openModal });
@@ -121,28 +145,59 @@ export default class HomeScreen extends Component {
     this.props.navigation.navigate("Camera");
     this.closeModal();
   }
-
+  /*
   lapsList() {
-    console.log(this.state.datasetState);
-    return this.state.datasetState.map((record) => {
+    let { data } = this.state;
+    return data.map((record, k) => {
+      console.log("tjis is image url " + record.uploadImage);
       var params = {
         Bucket: "projectnativeimages-bucket",
-        Key: record.content.uploadImage
+        Key: record.uploadImage
       };
       return (
         <CardComponent
-          name={record.content.username}
-          tag={record.content.tagline}
+          key={k}
+          name={record.username}
+          tag={record.tagline}
           imageUrl={s3.getSignedUrl("getObject", params)}
         />
       );
     });
-  }
+  }*/
+
+  handleEnd = () => {
+    console.log("handle end called");
+    this.setState(
+      state => ({ pageOffset: state.pageOffset + 1 }),
+      () => this.fetchData()
+    );
+  };
 
   render() {
     return (
       <Container style={styles.container}>
-        <Content>{this.lapsList()}</Content>
+        <Content>
+          <FlatList
+            data={this.state.data}
+            keyExtractor={(x, i) => i.toString()}
+            onEndReached={() => this.handleEnd()}
+            onEndReachedThreshold={0.5}
+            renderItem={({ item }) => {
+              console.log(item);
+              var params = {
+                Bucket: "projectnativeimages-bucket",
+                Key: item.uploadImage
+              };
+              return (
+                <CardComponent
+                  name={item.username}
+                  tag={item.tagline}
+                  imageUrl={s3.getSignedUrl("getObject", params)}
+                />
+              );
+            }}
+          />
+        </Content>
         <Modal
           open={this.state.open}
           modalDidOpen={this.modalDidOpen}

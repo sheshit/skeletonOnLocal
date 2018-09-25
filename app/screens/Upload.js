@@ -33,7 +33,7 @@ export default class UploadScreen extends React.Component {
             },
             body: data,
         };
-        fetch("http://192.168.201.57:3000/" + "upload-image", config)
+        fetch("http://192.168.201.55:3000/" + "upload-image", config)
             .catch((err) => { console.log(err); });
         this.props.navigation.navigate("HomeScreen");
     }
