@@ -44,30 +44,8 @@ export default class HomeScreen extends Component {
       pageOffset: 1,
       data: []
     };
-    //this.lapsList = this.lapsList.bind(this);
-    //this.handleEnd = this.handleEnd.bind(this);
   }
-  /*
-  setupImpagination() {
-    let dataset = new Dataset({
-      pageSize: 5,
-      pageOffset : 0,
-      observe: (datasetState) => {
-        this.setState({datasetState});
-      },
-      fetch(pageOffset, pageSize, stats) {
-        return fetch(`http://192.168.201.55:3000/get-posts/data/page=${pageOffset}`)
-          .then((response) => response.json()).then((responseJson) =>
-            console.log("this is response array"+JSON.stringify(responseJson))
-          )
-          .catch((error) => {
-            console.error(error);
-          });
-      }
-    });
-    dataset.setReadOffset(0);
-    this.setState({dataset});
-  }*/
+ 
 
   static navigationOptions = ({ navigation, screenProps }) => ({
     title: "Awesome App",
@@ -145,26 +123,7 @@ export default class HomeScreen extends Component {
     this.props.navigation.navigate("Camera");
     this.closeModal();
   }
-  /*
-  lapsList() {
-    let { data } = this.state;
-    return data.map((record, k) => {
-      console.log("tjis is image url " + record.uploadImage);
-      var params = {
-        Bucket: "projectnativeimages-bucket",
-        Key: record.uploadImage
-      };
-      return (
-        <CardComponent
-          key={k}
-          name={record.username}
-          tag={record.tagline}
-          imageUrl={s3.getSignedUrl("getObject", params)}
-        />
-      );
-    });
-  }*/
-
+ 
   handleEnd = () => {
     console.log("handle end called");
     this.setState(
