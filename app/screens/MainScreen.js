@@ -1,114 +1,112 @@
 import React, { Component } from "react";
-import {
-    View,
-    Text,
-    StyleSheet,
-    Platform
-} from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 
-import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
-import { Icon } from 'native-base';
-import HomeScreen from './HomeScreen.js';
-import SocialActivityScreen from './socialactivityscreen.js';
-import ProfileScreen from './Profile.js';
-import PhotoCardScreen from './PhotoCardScreen.js';
-import UploadScreen from './Upload.js';
-import CameraScreen from './CameraScreen.js';
+import {
+  createBottomTabNavigator,
+  createStackNavigator
+} from "react-navigation";
+import { Icon } from "native-base";
+import HomeScreen from "./HomeScreen.js";
+import SocialActivityScreen from "./socialactivityscreen.js";
+import ProfileScreen from "./Profile.js";
+import PhotoCardScreen from "./PhotoCardScreen.js";
+import UploadScreen from "./Upload.js";
+import CameraScreen from "./CameraScreen.js";
 
 export default class MainScreen extends Component {
-    /*
-        static navigationOptions = {
-            title: "Awesome App",
-            headerRight: <Icon style={{ paddingRight: 10 }} name="ios-add-circle" />
-        }
-    */
-    render() {
-        return (
-            <AppTabNavigator />
-        );
-    }
+  render() {
+    return <AppTabNavigator />;
+  }
 }
 
-export const HomeStack = createStackNavigator({
+export const HomeStack = createStackNavigator(
+  {
     HomeScreen: {
-        screen: HomeScreen
+      screen: HomeScreen
     },
     Profile: {
-        screen: ProfileScreen
+      screen: ProfileScreen
     },
     PhotoCardScreen: {
-        screen: PhotoCardScreen
+      screen: PhotoCardScreen
     },
     Upload: {
-        screen: UploadScreen
+      screen: UploadScreen
     },
     Camera: {
-        screen: CameraScreen
+      screen: CameraScreen
     }
-},
-    {
-        initialRouteName: 'HomeScreen'
-    }
+  },
+  {
+    initialRouteName: "HomeScreen"
+  }
 );
 
 HomeStack.navigationOptions = ({ navigation }) => {
-    let tabBarVisible = true;
-    if (navigation.state.index > 0) {
-        tabBarVisible = false;
-    }
+  let tabBarVisible = true;
+  if (navigation.state.index > 0) {
+    tabBarVisible = false;
+  }
 
-    return {
-        tabBarVisible,
-    };
+  return {
+    tabBarVisible
+  };
 };
 
-const AppTabNavigator = createBottomTabNavigator({
-
+const AppTabNavigator = createBottomTabNavigator(
+  {
     HomeTab: {
-        screen: HomeStack,
-        navigationOptions: {
-            tabBarLabel: "Home",
-            tabBarIcon: ({ tintColor }) => <Icon name="ios-home" size={30} color={tintColor} />
-        }
+      screen: HomeStack,
+      navigationOptions: {
+        tabBarLabel: "Home",
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="ios-home" size={30} color={tintColor} />
+        )
+      }
     },
     SocialActivityTab: {
-        screen: SocialActivityScreen,
-        navigationOptions: {
-            tabBarLabel: "Social",
-            tabBarIcon: ({ tintColor }) => <Icon name="ios-home" size={30} color={tintColor} />
-        }
+      screen: SocialActivityScreen,
+      navigationOptions: {
+        tabBarLabel: "Social",
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="ios-home" size={30} color={tintColor} />
+        )
+      }
     },
     ProfileTab: {
-        screen: ProfileScreen,
-        navigationOptions: {
-            tabBarLabel: "Profile",
-            tabBarIcon: ({ tintColor }) => <Icon name="person" size={30} color={tintColor} />
-        }
+      screen: ProfileScreen,
+      navigationOptions: {
+        tabBarLabel: "Profile",
+        tabBarIcon: ({ tintColor }) => (
+          <Icon name="person" size={30} color={tintColor} />
+        )
+      }
     }
-
-}, {
-        animationEnabled: true,
-        swipeEnabled: true,
-        tabBarPosition: "bottom",
-        tabBarOptions: {
-            style: {
-                ...Platform.select({
-                    android: {
-                        backgroundColor: 'white'
-                    }
-                })
-            },
-            activeTintColor: '#000',
-            inactiveTintColor: '#d1cece',
-            showLabel: false,
-            showIcon: true
-        }
-    })
+  },
+  {
+    animationEnabled: true,
+    swipeEnabled: true,
+    tabBarPosition: "bottom",
+    tabBarOptions: {
+      style: {
+        ...Platform.select({
+          android: {
+            backgroundColor: "white"
+          }
+        })
+      },
+      activeTintColor: "#000",
+      inactiveTintColor: "#d1cece",
+      showLabel: false,
+      showIcon: true
+    }
+  }
+);
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  }
 });

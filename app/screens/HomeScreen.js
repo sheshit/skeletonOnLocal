@@ -11,15 +11,9 @@ import {
   FlatList
 } from "react-native";
 import { Constants, ImagePicker, Permissions } from "expo";
-import Dataset from "impagination";
 import { Entypo, Ionicons } from "@expo/vector-icons";
-import HeaderComponent from "../components/HeaderComponent";
 import CardComponent from "../components/CardComponent";
 import * as firebase from "firebase";
-import { createStackNavigator } from "react-navigation";
-import ProfileScreen from "./Profile.js";
-import UploadScreen from "./Upload.js";
-import PhotoCardScreen from "./PhotoCardScreen.js";
 import { Container, Content, Icon } from "native-base";
 import Modal from "react-native-simple-modal";
 import { iam_access_id, iam_secret } from "./keys.js";
@@ -41,11 +35,10 @@ export default class HomeScreen extends Component {
       imageUri: null,
       s3PreSignedUrl: "",
       loading: false,
-      pageOffset: 1,
-      data: []
+      pageOffset: 0,
+      data: [],
     };
   }
- 
 
   static navigationOptions = ({ navigation, screenProps }) => ({
     title: "Awesome App",
@@ -65,15 +58,16 @@ export default class HomeScreen extends Component {
   fetchData = async () => {
     this.setState({ loading: true });
     await fetch(
-      `http://192.168.201.55:3000/get-posts/data/page=${this.state.pageOffset}`
+      `http://192.168.201.56:3000/get-posts/data/page=${this.state.pageOffset}`
     )
       .then(response => response.json())
       .then(responseJson => {
-        console.log("this is response array" + JSON.stringify(responseJson));
-        this.setState(state => ({
-          data: [...state.data, ...responseJson],
-          loading: false
-        }));
+        if (responseJson.length > 0) {
+          this.setState(state => ({
+            data: [...state.data, ...responseJson],
+            loading: false
+          }));
+        }
       })
       .catch(error => {
         console.error(error);
@@ -123,7 +117,7 @@ export default class HomeScreen extends Component {
     this.props.navigation.navigate("Camera");
     this.closeModal();
   }
- 
+
   handleEnd = () => {
     console.log("handle end called");
     this.setState(
@@ -135,28 +129,27 @@ export default class HomeScreen extends Component {
   render() {
     return (
       <Container style={styles.container}>
-        <Content>
-          <FlatList
-            data={this.state.data}
-            keyExtractor={(x, i) => i.toString()}
-            onEndReached={() => this.handleEnd()}
-            onEndReachedThreshold={0.5}
-            renderItem={({ item }) => {
-              console.log(item);
-              var params = {
-                Bucket: "projectnativeimages-bucket",
-                Key: item.uploadImage
-              };
-              return (
-                <CardComponent
-                  name={item.username}
-                  tag={item.tagline}
-                  imageUrl={s3.getSignedUrl("getObject", params)}
-                />
-              );
-            }}
-          />
-        </Content>
+        <FlatList
+          data={this.state.data}
+          keyExtractor={(x, i) => i.toString()}
+          onEndReached={() => this.handleEnd()}
+          onEndReachedThreshold={0.3}
+          renderItem={({ item }) => {
+            console.log(item);
+            var params = {
+              Bucket: "projectnativeimages-bucket",
+              Key: item.uploadImage
+            };
+            return (
+              <CardComponent
+                name={item.username}
+                tag={item.tagline}
+                imageUrl={s3.getSignedUrl("getObject", params)}
+              />
+            );
+          }}
+        />
+
         <Modal
           open={this.state.open}
           modalDidOpen={this.modalDidOpen}

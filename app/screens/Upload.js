@@ -18,12 +18,13 @@ export default class UploadScreen extends React.Component {
         const { itemId } = this.props.navigation.state.params;
         const data = new FormData();
         data.append('username', 'ram siran g jaffa');
-        data.append('tagline', 'avatar');
+        data.append('tagline', this.state.text);
         data.append('uploadImage', {
             uri: itemId,
             type: "image/jpg",
             name: "hello world",
         });
+        data.append('numberOfLikes', 0);
         console.log(data);
         const config = {
             method: 'POST',
@@ -33,7 +34,7 @@ export default class UploadScreen extends React.Component {
             },
             body: data,
         };
-        fetch("http://192.168.201.55:3000/" + "upload-image", config)
+        fetch("http://192.168.201.56:3000/" + "upload-image", config)
             .catch((err) => { console.log(err); });
         this.props.navigation.navigate("HomeScreen");
     }
@@ -51,6 +52,7 @@ export default class UploadScreen extends React.Component {
                             placeholder="Enter Something"
                             placeholderTextColor="white"
                             onChangeText={(text) => this.setState({ text })}
+                            value = {this.state.text}
                         />
                     </View>
                     <TouchableOpacity onPress={this.sendPostToBackend.bind(this)}>
