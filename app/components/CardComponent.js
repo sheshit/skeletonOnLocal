@@ -14,7 +14,6 @@ import {
 
 class CardComponent extends Component {
   render() {
-   
     console.log("FROM CARD COMPONENT PROPS-----------" + this.props.imageUrl);
     return (
       <Card>
@@ -30,7 +29,12 @@ class CardComponent extends Component {
         <CardItem cardBody>
           <Image
             source={{ uri: this.props.imageUrl }}
-            style={{ height: 200, width: null, flex: 1, resizeMode: 'cover' }}
+            style={{
+              height: 200,
+              width: '100%',
+              flex:1,
+              resizeMode: "contain"
+            }}
           />
         </CardItem>
         <CardItem style={{ height: 45 }}>
@@ -53,8 +57,8 @@ class CardComponent extends Component {
         <CardItem>
           <Body>
             <Text>
-              <Text style={{ fontWeight: "900" }}>varun</Text>
-              hello world!!!
+              <Text style={{ fontWeight: "900" }}>Karthikeya</Text>
+              {this.props.tag}
             </Text>
           </Body>
         </CardItem>
