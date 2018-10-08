@@ -58,7 +58,7 @@ export default class HomeScreen extends Component {
   fetchData = async () => {
     this.setState({ loading: true });
     await fetch(
-      `http://192.168.201.56:3000/get-posts/data/page=${this.state.pageOffset}`
+      `http://192.168.201.56:5000/get-posts/data/page=${this.state.pageOffset}`
     )
       .then(response => response.json())
       .then(responseJson => {
@@ -145,6 +145,8 @@ export default class HomeScreen extends Component {
                 name={item.username}
                 tag={item.tagline}
                 imageUrl={s3.getSignedUrl("getObject", params)}
+                navigate={this.props.navigation.navigate} 
+                destination="Comment"
               />
             );
           }}

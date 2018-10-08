@@ -36,7 +36,7 @@ export default class SignInScreen extends React.Component {
     };
     console.log("accessTokenExport called");
     console.log(JSON.stringify(data));
-    fetch("http://192.168.201.56:3000/google-login", {
+    fetch("http://192.168.201.56:5000/google-login", {
       method: "POST",
       headers: {
         Accept: "application/json",

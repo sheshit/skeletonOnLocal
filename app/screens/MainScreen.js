@@ -12,7 +12,8 @@ import ProfileScreen from "./Profile.js";
 import PhotoCardScreen from "./PhotoCardScreen.js";
 import UploadScreen from "./Upload.js";
 import CameraScreen from "./CameraScreen.js";
-
+import List from './Comment-Screen/list';
+import CardComponent from '../components/CardComponent.js';
 export default class MainScreen extends Component {
   render() {
     return <AppTabNavigator />;
@@ -35,7 +36,10 @@ export const HomeStack = createStackNavigator(
     },
     Camera: {
       screen: CameraScreen
-    }
+    },
+    Comment: {
+      screen: List
+    },
   },
   {
     initialRouteName: "HomeScreen"

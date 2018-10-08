@@ -42,7 +42,7 @@ class CardComponent extends Component {
             <Button transparent>
               <Icon name="ios-heart-outline" style={{ color: "black" }} />
             </Button>
-            <Button transparent>
+            <Button transparent onPress={() => this.props.navigate(this.props.destination)}  >
               <Icon name="ios-chatbubbles-outline" style={{ color: "black" }} />
             </Button>
             <Button transparent>
