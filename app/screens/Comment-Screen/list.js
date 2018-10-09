@@ -72,9 +72,10 @@ export default class List extends Component {
 
   render() {
     // Pull comments out of state
+    const { itemUrl } = this.props.navigation.state.params;
+    console.log(itemUrl);
     const { comments } = this.state;
-    const myUri ="https://bootdey.com/img/Content/avatar/avatar1.png";
-    Image.getSize(myUri, (height) => {this.setState({height})});
+    Image.getSize(itemUrl, (height) => {this.setState({height})});
     return (
       <View style={styles.container}>
       
@@ -85,7 +86,7 @@ export default class List extends Component {
                 height:this.state.height,
               }}
               source={{
-                uri:myUri
+                uri:itemUrl
               }}
             />
          

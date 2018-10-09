@@ -31,8 +31,8 @@ class CardComponent extends Component {
             source={{ uri: this.props.imageUrl }}
             style={{
               height: 200,
-              width: '100%',
-              flex:1,
+              width: "100%",
+              flex: 1,
               resizeMode: "contain"
             }}
           />
@@ -42,7 +42,14 @@ class CardComponent extends Component {
             <Button transparent>
               <Icon name="ios-heart-outline" style={{ color: "black" }} />
             </Button>
-            <Button transparent onPress={() => this.props.navigate(this.props.destination)}  >
+            <Button
+              transparent
+              onPress={() =>
+                this.props.navigate(this.props.destination, {
+                  itemUrl: this.props.imageUrl
+                })
+              }
+            >
               <Icon name="ios-chatbubbles-outline" style={{ color: "black" }} />
             </Button>
             <Button transparent>
