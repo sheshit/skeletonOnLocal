@@ -18,24 +18,25 @@ export default class SignInScreen extends React.Component {
     super(props);
     this.state = {
       userId: "",
-      accessToken: "",
-      refreshToken: "",
       name: "",
       email: "",
       photoUrl: ""
     };
   }
 
-  accessTokenExport = () => {
+  storeUserData = () => {
+     AsyncStorage.setItem('username', 'this.state.name');
+     AsyncStorage.setItem('photo', 'this.state.photoUrl');
+  }
+
+  UserCreationInDB = () => {
     var data = {
       userId: this.state.userId,
-      accessToken: this.state.accessToken,
-      refreshToken: this.state.refreshToken,
       name: this.state.name,
       email: this.state.email,
-      photoUrl: this.state.photoUrl
+      photoUrl: this.state.photoUrl,
+      posts:[]
     };
-    console.log("accessTokenExport called");
     console.log(JSON.stringify(data));
     fetch(ip_address+"/google-login", {
       method: "POST",
@@ -44,7 +45,8 @@ export default class SignInScreen extends React.Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(data)
-    }).then(Alert.alert("Sent data"));
+    });
+    this.storeUserData();
   };
 
   signInWithFacebookAsync = async () => {
@@ -85,8 +87,6 @@ export default class SignInScreen extends React.Component {
       if (result.type === "success") {
         this.setState({
           userId: result.user.id,
-          accessToken: result.accessToken,
-          refreshToken: result.refreshToken,
           name: result.user.name,
           email: result.user.email,
           photoUrl: result.user.photoUrl
@@ -103,6 +103,7 @@ export default class SignInScreen extends React.Component {
           .catch(error => {
             Alert.alert("Fail!!");
           });
+          this.UserCreationInDB();
         this.props.navigation.navigate("App");
       } else {
         return { cancelled: true };

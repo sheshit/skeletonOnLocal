@@ -36,7 +36,7 @@ export default class HomeScreen extends Component {
       s3PreSignedUrl: "",
       loading: false,
       pageOffset: 0,
-      data: [],
+      data: []
     };
   }
 
@@ -57,9 +57,8 @@ export default class HomeScreen extends Component {
 
   fetchData = async () => {
     this.setState({ loading: true });
-    await fetch(
-      ip_address+`/get-posts/data/page=${this.state.pageOffset}`
-    )
+    console.log(ip_address + `/get-posts/data/page=${this.state.pageOffset}`);
+    await fetch(ip_address + `/get-posts/data/page=${this.state.pageOffset}`)
       .then(response => response.json())
       .then(responseJson => {
         if (responseJson.length > 0) {
@@ -145,7 +144,7 @@ export default class HomeScreen extends Component {
                 name={item.username}
                 tag={item.tagline}
                 imageUrl={s3.getSignedUrl("getObject", params)}
-                navigate={this.props.navigation.navigate} 
+                navigate={this.props.navigation.navigate}
                 destination="Comment"
               />
             );

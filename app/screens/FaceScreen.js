@@ -2,12 +2,9 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  View
+  View,Button
 } from 'react-native';
-import { Container, Header, Left, Body, Right, Button, Icon, Title } from 'native-base';
 import { Constants } from 'expo';
-import { Entypo, Ionicons } from '@expo/vector-icons';
-import HeaderComponent from '../components/HeaderComponent'
 
 export default class FaceScreen extends Component {
   static navigationOptions = {
@@ -20,13 +17,24 @@ export default class FaceScreen extends Component {
       fontWeight: 'bold',
     },
   };
+
+  signOutUser = async () => {
+    try {
+      await firebase.auth().signOut();
+      this.props.navigation.navigate("Auth");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>
           Facebook feed!!
         </Text>
-      </View>
+        <Button color="#000" title = "Sign Out!!" onPress={this.signOutUser.bind(this)}/>      
+        </View>
     );
   }
 }

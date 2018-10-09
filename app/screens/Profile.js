@@ -1,29 +1,42 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   StyleSheet,
   Text,
-  View,Image, ScrollView 
-} from 'react-native';
-import { Container, Header, Left, Body, Right, Button, Icon, Title } from 'native-base';
-import { Constants } from 'expo';
-import { Entypo, Ionicons } from '@expo/vector-icons';
-import HeaderComponent from '../components/HeaderComponent'
+  View,
+  Image,
+  ScrollView,
+  Button
+} from "react-native";
+import * as firebase from "firebase";
+import { Container, Header, Left, Body, Right, Icon, Title } from "native-base";
+import { Constants } from "expo";
+import { Entypo, Ionicons } from "@expo/vector-icons";
+import HeaderComponent from "../components/HeaderComponent";
 
 export default class ProfileScreen extends Component {
   constructor(props) {
     super(props);
   }
 
+  signOutUser = async () => {
+    try {
+      await firebase.auth().signOut();
+      this.props.navigation.navigate("Auth");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   static navigationOptions = {
-    title: 'Profile',
+    title: "Profile",
     headerStyle: {
-      backgroundColor: '#f4511e',
+      backgroundColor: "#f4511e"
     },
-    headerTintColor: '#fff',
+    headerTintColor: "#fff",
     headerTitleStyle: {
-      fontWeight: 'bold',
+      fontWeight: "bold"
     },
-    headerRight: <Icon style={{ paddingRight: 10 }} name="ios-add-circle" />,
+    headerRight: <Icon style={{ paddingRight: 10 }} name="ios-add-circle" />
   };
   render() {
     return (
@@ -100,6 +113,11 @@ export default class ProfileScreen extends Component {
               />
             </View>
           </View>
+          <Button
+            color="#fff"
+            title="Sign Out!!"
+            onPress={this.signOutUser.bind(this)}
+          />
         </View>
       </ScrollView>
     );
@@ -133,7 +151,7 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   card2: {
-    backgroundColor:'transparent',
+    backgroundColor: "transparent",
     borderRadius: 50,
     padding: 10,
     height: 100,
@@ -185,5 +203,4 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginRight: 5
   }
-
 });

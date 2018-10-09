@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Image, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Image, TextInput, TouchableOpacity,AsyncStorage } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import BackgroundImage from "../components/BackgroundImage";
@@ -16,8 +16,9 @@ export default class UploadScreen extends React.Component {
 
     sendPostToBackend() {
         const { itemId } = this.props.navigation.state.params;
+        const username = AsyncStorage.getItem("username");
         const data = new FormData();
-        data.append('username', 'ram siran g jaffa');
+        data.append('username', username);
         data.append('tagline', this.state.text);
         data.append('uploadImage', {
             uri: itemId,
