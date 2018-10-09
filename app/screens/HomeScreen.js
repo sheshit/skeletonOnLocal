@@ -16,7 +16,7 @@ import CardComponent from "../components/CardComponent";
 import * as firebase from "firebase";
 import { Container, Content, Icon } from "native-base";
 import Modal from "react-native-simple-modal";
-import { iam_access_id, iam_secret } from "./keys.js";
+import { iam_access_id, iam_secret, ip_address } from "./keys.js";
 
 var AWS = require("aws-sdk");
 AWS.config.update({
@@ -58,7 +58,7 @@ export default class HomeScreen extends Component {
   fetchData = async () => {
     this.setState({ loading: true });
     await fetch(
-      `http://192.168.201.56:5000/get-posts/data/page=${this.state.pageOffset}`
+      ip_address+`/get-posts/data/page=${this.state.pageOffset}`
     )
       .then(response => response.json())
       .then(responseJson => {

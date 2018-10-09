@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import * as firebase from "firebase";
 import BackgroundImage from "../components/BackgroundImage.js";
+import { iam_access_id, iam_secret, ip_address } from "./keys.js";
 
 export default class SignInScreen extends React.Component {
   constructor(props) {
@@ -36,7 +37,7 @@ export default class SignInScreen extends React.Component {
     };
     console.log("accessTokenExport called");
     console.log(JSON.stringify(data));
-    fetch("http://192.168.201.56:5000/google-login", {
+    fetch(ip_address+"/google-login", {
       method: "POST",
       headers: {
         Accept: "application/json",

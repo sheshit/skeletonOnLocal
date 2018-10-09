@@ -1,6 +1,8 @@
-const API = "http://192.168.201.56:5000/newComment";
+import { iam_access_id, iam_secret, ip_address } from "../keys";
 
-const API2 = "http://192.168.201.56:5000/getComments/data/page=0";
+const API = ip_address+"/newComment";
+
+const API2 = ip_address+"/getComments/data/page=0";
 
 const headers = {
   Accept: "application/json",

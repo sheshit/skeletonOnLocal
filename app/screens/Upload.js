@@ -3,7 +3,7 @@ import { StyleSheet, View, Image, TextInput, TouchableOpacity } from 'react-nati
 import { Ionicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import BackgroundImage from "../components/BackgroundImage";
-
+import { iam_access_id, iam_secret, ip_address } from "./keys.js";
 
 export default class UploadScreen extends React.Component {
     constructor(props) {
@@ -34,7 +34,7 @@ export default class UploadScreen extends React.Component {
             },
             body: data,
         };
-        fetch("http://192.168.201.56:5000/" + "upload-image", config)
+        fetch(ip_address + "/upload-image", config)
             .catch((err) => { console.log(err); });
         this.props.navigation.navigate("HomeScreen");
     }
