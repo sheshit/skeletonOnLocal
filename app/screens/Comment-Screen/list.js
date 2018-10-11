@@ -12,8 +12,6 @@ import { get, put } from "./api";
 import Comment from "./comment";
 import Input from "./input";
 
-
-
 export default class List extends Component {
   static navigationOptions = {
     header: null
@@ -75,22 +73,21 @@ export default class List extends Component {
     const { itemUrl } = this.props.navigation.state.params;
     console.log(itemUrl);
     const { comments } = this.state;
-    Image.getSize(itemUrl, (height) => {this.setState({height})});
+    Image.getSize(itemUrl, height => {
+      this.setState({ height });
+    });
     return (
       <View style={styles.container}>
-      
-            <Image
-              style={{
-                flex: 1,
-                resizeMode: "cover",
-                height:this.state.height,
-              }}
-              source={{
-                uri:itemUrl
-              }}
-            />
-         
-
+        <Image
+          style={{
+            flex: 1,
+            resizeMode: "cover",
+            height: this.state.height
+          }}
+          source={{
+            uri: itemUrl
+          }}
+        />
         <ScrollView
           ref={scrollView => {
             this._scrollView = scrollView;
@@ -102,8 +99,6 @@ export default class List extends Component {
             />
           }
         >
-          
-
           {/* Render each comment with Comment component */}
           {comments.map((data, index) => (
             <Comment comment={data.text} key={index} />
